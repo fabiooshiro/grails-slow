@@ -6,6 +6,8 @@ class SomeClassController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def dataSource
+
     def index() {
         redirect(action: "list", params: params)
     }
@@ -16,6 +18,7 @@ class SomeClassController {
         //SomeClass.workaround.list()
         //SomeClass.withCriteria { like('name', '%') }
         SomeClass.list()
+        //new groovy.sql.Sql(dataSource).rows("select * from SOME_CLASS where name like '%'")
         params.max = Math.min(max ?: 10, 100)
         def res = [someClassInstanceList: SomeClass.list(params), someClassInstanceTotal: SomeClass.count()]
         log.debug("T = ${System.currentTimeMillis() - x}ms .")
