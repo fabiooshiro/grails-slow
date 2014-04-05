@@ -12,18 +12,14 @@ class SomeClassController {
 
     def list(Integer max) {
         def x = System.currentTimeMillis()
-        SomeClass.withCriteria {
-            like('name', '%')
-        }.each {
-            if (it.name.endsWith('-b') ){
-                it.name = it.name.replace('-b', '')
-            } else {
-                it.name = it.name + ' -b'
-            }
-        }
+        //SomeClass.findAllByNameLike('%')
+        //SomeClass.workaround.list()
+        //SomeClass.withCriteria { like('name', '%') }
+        SomeClass.list()
         params.max = Math.min(max ?: 10, 100)
-        log.debug("T = ${System.currentTimeMillis() - x}ms ...")
-        [someClassInstanceList: SomeClass.list(params), someClassInstanceTotal: SomeClass.count()]
+        def res = [someClassInstanceList: SomeClass.list(params), someClassInstanceTotal: SomeClass.count()]
+        log.debug("T = ${System.currentTimeMillis() - x}ms .")
+        return res
     }
 
     def create() {
